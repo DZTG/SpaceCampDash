@@ -141,6 +141,7 @@ export default function StepChallenge({ individuals, teams }: StepChallengeProps
                 fill={teamCfg.color}
                 radius={[3, 3, 0, 0]}
                 maxBarSize={28}
+                isAnimationActive={false}
               />
             ))}
           </BarChart>
