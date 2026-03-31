@@ -43,8 +43,8 @@ export function useSheetData(): UseSheetDataReturn {
     try {
       const bust = `&_cb=${Date.now()}`
       const [indRes, teamRes] = await Promise.all([
-        fetch(config.sheetIndividualUrl + bust, { cache: 'no-store' }),
-        fetch(config.sheetTeamUrl + bust, { cache: 'no-store' }),
+        fetch(`/api/csv?sheet=individual${bust}`),
+        fetch(`/api/csv?sheet=team${bust}`),
       ])
 
       if (!indRes.ok) throw new Error(`Individuals sheet: HTTP ${indRes.status}`)
