@@ -51,7 +51,10 @@ export default function ActivityCard({
           .map((ts) => (
             <div key={ts.team}>
               <div className="flex items-center justify-between mb-0.5">
-                <span className="text-xs text-slate-400 truncate max-w-[70%]">
+                <span
+                  className="text-xs font-medium truncate max-w-[70%]"
+                  style={{ color: ts.color }}
+                >
                   {ts.team}
                 </span>
                 <span

@@ -17,6 +17,35 @@ interface TeamStandingsProps {
   teams: TeamData[]
 }
 
+function TeamAxisTick({
+  x,
+  y,
+  payload,
+  colorByName,
+}: {
+  x?: number
+  y?: number
+  payload?: { value: string }
+  colorByName: Record<string, string>
+}) {
+  const teamName = payload?.value ?? ''
+  const fill = colorByName[teamName] ?? '#cbd5e1'
+
+  return (
+    <text
+      x={x}
+      y={y}
+      dy={4}
+      textAnchor="end"
+      fill={fill}
+      fontSize={12}
+      fontWeight={700}
+    >
+      {teamName}
+    </text>
+  )
+}
+
 function TeamCard({ team }: { team: TeamData }) {
   const isFirst = team.rank === 1
   const medal = RANK_MEDALS[team.rank]
@@ -45,7 +74,9 @@ function TeamCard({ team }: { team: TeamData }) {
 
       {/* Team name */}
       <div>
-        <p className="font-bold text-lg text-white leading-tight">{team.team}</p>
+        <p className="font-bold text-lg leading-tight" style={{ color: team.color }}>
+          {team.team}
+        </p>
       </div>
 
       {/* Total points */}
@@ -86,6 +117,7 @@ function CustomTooltip({ active, payload, label }: any) {
 export default function TeamStandings({ teams }: TeamStandingsProps) {
   const sorted = [...teams].sort((a, b) => a.rank - b.rank)
   const chartData = sorted.map((t) => ({ name: t.team, total: t.total, color: t.color }))
+  const colorByName = Object.fromEntries(chartData.map((team) => [team.name, team.color]))
 
   return (
     <section className="space-y-4 animate-fade-in">
@@ -119,7 +151,7 @@ export default function TeamStandings({ teams }: TeamStandingsProps) {
             <YAxis
               type="category"
               dataKey="name"
-              tick={{ fill: '#cbd5e1', fontSize: 12, fontWeight: 600 }}
+              tick={(props) => <TeamAxisTick {...props} colorByName={colorByName} />}
               axisLine={false}
               tickLine={false}
               width={100}

@@ -39,6 +39,10 @@ function CustomTooltip({ active, payload, label }: any) {
   return null
 }
 
+function renderLegendText(value: string) {
+  return <span style={{ color: getTeamColor(value) }}>{value}</span>
+}
+
 export default function StepChallenge({ individuals, teams }: StepChallengeProps) {
   // Build chart data: combined team steps per day
   const chartData = DAYS.map((day) => {
@@ -132,7 +136,8 @@ export default function StepChallenge({ individuals, teams }: StepChallengeProps
             />
             <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.04)' }} />
             <Legend
-              wrapperStyle={{ fontSize: 11, color: '#94a3b8', paddingTop: 8 }}
+              formatter={renderLegendText}
+              wrapperStyle={{ fontSize: 11, paddingTop: 8 }}
             />
             {config.teams.map((teamCfg) => (
               <Bar
