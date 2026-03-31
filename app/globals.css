@@ -1,0 +1,268 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0A0F1E;
+}
+
+html,
+body {
+  background-color: var(--bg);
+  color: #e2e8f0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* ─── Starfield ─────────────────────────────────────────────────── */
+.starfield {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* Small stars layer */
+.starfield::before {
+  content: '';
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  animation: twinkle-a 8s ease-in-out infinite alternate;
+  box-shadow:
+    50px 100px rgba(255,255,255,0.75),
+    200px 45px rgba(255,255,255,0.65),
+    380px 220px rgba(255,255,255,0.8),
+    550px 80px rgba(255,255,255,0.6),
+    720px 310px rgba(255,255,255,0.75),
+    890px 155px rgba(255,255,255,0.7),
+    1060px 400px rgba(255,255,255,0.65),
+    1230px 60px rgba(255,255,255,0.8),
+    1400px 275px rgba(255,255,255,0.7),
+    1570px 190px rgba(255,255,255,0.65),
+    1740px 350px rgba(255,255,255,0.75),
+    1900px 100px rgba(255,255,255,0.6),
+    30px 450px rgba(255,255,255,0.7),
+    170px 520px rgba(255,255,255,0.8),
+    340px 680px rgba(255,255,255,0.65),
+    510px 390px rgba(255,255,255,0.75),
+    680px 550px rgba(255,255,255,0.7),
+    850px 470px rgba(255,255,255,0.8),
+    1020px 620px rgba(255,255,255,0.65),
+    1190px 480px rgba(255,255,255,0.75),
+    1360px 590px rgba(255,255,255,0.7),
+    1530px 430px rgba(255,255,255,0.65),
+    1700px 610px rgba(255,255,255,0.8),
+    1870px 520px rgba(255,255,255,0.7),
+    100px 750px rgba(255,255,255,0.65),
+    270px 820px rgba(255,255,255,0.75),
+    440px 700px rgba(255,255,255,0.8),
+    610px 870px rgba(255,255,255,0.7),
+    780px 740px rgba(255,255,255,0.65),
+    950px 810px rgba(255,255,255,0.75),
+    1120px 770px rgba(255,255,255,0.8),
+    1290px 840px rgba(255,255,255,0.65),
+    1460px 720px rgba(255,255,255,0.75),
+    1630px 790px rgba(255,255,255,0.7),
+    1800px 850px rgba(255,255,255,0.65),
+    80px 950px rgba(255,255,255,0.8),
+    250px 1020px rgba(255,255,255,0.7),
+    420px 900px rgba(255,255,255,0.65),
+    590px 980px rgba(255,255,255,0.75),
+    760px 1050px rgba(255,255,255,0.8),
+    930px 940px rgba(255,255,255,0.7),
+    1100px 1000px rgba(255,255,255,0.65),
+    1270px 1060px rgba(255,255,255,0.75),
+    1440px 930px rgba(255,255,255,0.8),
+    1610px 1010px rgba(255,255,255,0.7),
+    1780px 1080px rgba(255,255,255,0.65),
+    470px 160px rgba(255,255,255,0.75),
+    640px 230px rgba(255,255,255,0.8),
+    810px 30px rgba(255,255,255,0.65),
+    980px 200px rgba(255,255,255,0.7),
+    1150px 120px rgba(255,255,255,0.75),
+    1320px 280px rgba(255,255,255,0.65),
+    1490px 170px rgba(255,255,255,0.8),
+    1660px 240px rgba(255,255,255,0.7),
+    1830px 160px rgba(255,255,255,0.65),
+    155px 310px rgba(255,255,255,0.8),
+    325px 380px rgba(255,255,255,0.7),
+    495px 270px rgba(255,255,255,0.75),
+    665px 400px rgba(255,255,255,0.65),
+    835px 320px rgba(255,255,255,0.8),
+    1005px 350px rgba(255,255,255,0.7),
+    1175px 290px rgba(255,255,255,0.75),
+    1345px 370px rgba(255,255,255,0.65),
+    1515px 300px rgba(255,255,255,0.8),
+    1685px 380px rgba(255,255,255,0.7),
+    1855px 320px rgba(255,255,255,0.65),
+    22px 600px rgba(255,255,255,0.75),
+    192px 660px rgba(255,255,255,0.8),
+    362px 730px rgba(255,255,255,0.65),
+    532px 650px rgba(255,255,255,0.7),
+    702px 710px rgba(255,255,255,0.75),
+    872px 670px rgba(255,255,255,0.8),
+    1042px 720px rgba(255,255,255,0.65),
+    1212px 680px rgba(255,255,255,0.7),
+    1382px 730px rgba(255,255,255,0.75),
+    1552px 650px rgba(255,255,255,0.65),
+    1722px 700px rgba(255,255,255,0.8),
+    1892px 640px rgba(255,255,255,0.7),
+    75px 1100px rgba(255,255,255,0.65),
+    245px 1140px rgba(255,255,255,0.75),
+    415px 1080px rgba(255,255,255,0.8),
+    585px 1160px rgba(255,255,255,0.7),
+    755px 1110px rgba(255,255,255,0.65),
+    925px 1180px rgba(255,255,255,0.75);
+}
+
+/* Medium/bright stars layer — slightly larger offsets, slower twinkle */
+.starfield::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: transparent;
+  animation: twinkle-b 12s ease-in-out infinite alternate;
+  box-shadow:
+    140px 90px rgba(255,255,255,0.9),
+    450px 370px rgba(200,220,255,0.85),
+    760px 200px rgba(255,255,255,0.9),
+    1070px 430px rgba(200,220,255,0.85),
+    1380px 120px rgba(255,255,255,0.9),
+    1690px 280px rgba(200,220,255,0.85),
+    60px 700px rgba(255,255,255,0.9),
+    370px 560px rgba(200,220,255,0.85),
+    680px 490px rgba(255,255,255,0.9),
+    990px 630px rgba(200,220,255,0.85),
+    1300px 410px rgba(255,255,255,0.9),
+    1610px 570px rgba(200,220,255,0.85),
+    1920px 350px rgba(255,255,255,0.9),
+    220px 890px rgba(200,220,255,0.85),
+    530px 820px rgba(255,255,255,0.9),
+    840px 960px rgba(200,220,255,0.85),
+    1150px 880px rgba(255,255,255,0.9),
+    1460px 920px rgba(200,220,255,0.85),
+    1770px 960px rgba(255,255,255,0.9),
+    390px 130px rgba(200,220,255,0.85),
+    700px 310px rgba(255,255,255,0.9),
+    1010px 480px rgba(200,220,255,0.85),
+    1320px 230px rgba(255,255,255,0.9),
+    1630px 490px rgba(200,220,255,0.85),
+    285px 200px rgba(255,255,255,0.9),
+    595px 445px rgba(200,220,255,0.85),
+    905px 340px rgba(255,255,255,0.9),
+    1215px 510px rgba(200,220,255,0.85),
+    1525px 390px rgba(255,255,255,0.9),
+    1835px 460px rgba(200,220,255,0.85),
+    750px 150px rgba(255,255,255,1),
+    1200px 500px rgba(200,220,255,1),
+    450px 750px rgba(255,255,255,1),
+    1500px 300px rgba(200,220,255,1),
+    900px 900px rgba(255,255,255,1),
+    200px 300px rgba(200,220,255,1),
+    1700px 700px rgba(255,255,255,1),
+    1100px 100px rgba(200,220,255,1),
+    300px 900px rgba(255,255,255,1),
+    1900px 450px rgba(200,220,255,1);
+}
+
+@keyframes twinkle-a {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.4; }
+  100% { opacity: 0.8; }
+}
+
+@keyframes twinkle-b {
+  0%   { opacity: 0.8; }
+  60%  { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+/* ─── Glass card ─────────────────────────────────────────────────── */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 1rem;
+}
+
+.glass-hover {
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.glass-hover:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.15);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+/* ─── Section heading ────────────────────────────────────────────── */
+.section-heading {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  letter-spacing: 0.02em;
+}
+
+/* ─── Rank badge ─────────────────────────────────────────────────── */
+.rank-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: rgba(255,255,255,0.1);
+  color: #cbd5e1;
+}
+
+/* ─── Live dot ───────────────────────────────────────────────────── */
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 6px #10B981;
+  animation: live-pulse 2s ease-in-out infinite;
+}
+
+@keyframes live-pulse {
+  0%, 100% { box-shadow: 0 0 6px #10B981; }
+  50% { box-shadow: 0 0 12px #10B981, 0 0 20px rgba(16,185,129,0.4); }
+}
+
+/* ─── Skeleton shimmer ───────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.05) 25%,
+    rgba(255,255,255,0.10) 50%,
+    rgba(255,255,255,0.05) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 0.5rem;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
