@@ -61,7 +61,6 @@ export default function StepChallenge({ individuals, teams }: StepChallengeProps
       team: p.team,
       color: getTeamColor(p.team),
       total: DAYS.reduce((sum, day) => sum + (p[`steps_${day}` as StepKey] as number), 0),
-      daily: DAYS.map((day) => p[`steps_${day}` as StepKey] as number),
     }))
     .sort((a, b) => b.total - a.total)
     .slice(0, 5)
@@ -140,7 +139,6 @@ export default function StepChallenge({ individuals, teams }: StepChallengeProps
                 key={teamCfg.name}
                 dataKey={teamCfg.name}
                 fill={teamCfg.color}
-                opacity={0.85}
                 radius={[3, 3, 0, 0]}
                 maxBarSize={28}
               />
@@ -159,37 +157,17 @@ export default function StepChallenge({ individuals, teams }: StepChallengeProps
             <p className="text-slate-500 text-sm">No step data yet</p>
           )}
           {topSteppers.map((stepper, i) => (
-            <div key={stepper.name} className="space-y-1">
-              <div className="flex items-center gap-2">
-                <span className="text-sm w-6 text-center">
-                  {i < 3 ? rankMedals[i] : <span className="text-slate-500 text-xs">{rankMedals[i]}</span>}
-                </span>
-                <span className="text-sm text-white font-semibold flex-1 truncate">
-                  {stepper.name}
-                </span>
-                <TeamBadge name={stepper.team} color={stepper.color} size="sm" />
-                <span className="font-bold text-sm" style={{ color: stepper.color }}>
-                  {stepper.total.toLocaleString()}
-                </span>
-              </div>
-              {/* Per-day mini bars */}
-              <div className="flex gap-1 ml-8">
-                {stepper.daily.map((steps, di) => (
-                  <div key={di} className="flex-1 space-y-0.5">
-                    <p className="text-[9px] text-slate-600 text-center">
-                      {DAY_LABELS[DAYS[di]]}
-                    </p>
-                    <div
-                      className="h-1 rounded-full"
-                      style={{
-                        background: stepper.color,
-                        opacity: steps > 0 ? 0.6 : 0.1,
-                        width: '100%',
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
+            <div key={stepper.name} className="flex items-center gap-2">
+              <span className="text-sm w-6 text-center">
+                {i < 3 ? rankMedals[i] : <span className="text-slate-500 text-xs">{rankMedals[i]}</span>}
+              </span>
+              <span className="text-sm text-white font-semibold flex-1 truncate">
+                {stepper.name}
+              </span>
+              <TeamBadge name={stepper.team} color={stepper.color} size="sm" />
+              <span className="font-bold text-sm" style={{ color: stepper.color }}>
+                {stepper.total.toLocaleString()}
+              </span>
             </div>
           ))}
         </div>

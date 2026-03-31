@@ -127,7 +127,7 @@ export default function TeamStandings({ teams }: TeamStandingsProps) {
             <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.04)' }} />
             <Bar dataKey="total" radius={[0, 4, 4, 0]} maxBarSize={32}>
               {chartData.map((entry) => (
-                <Cell key={entry.name} fill={entry.color} opacity={0.85} />
+                <Cell key={entry.name} fill={entry.color} />
               ))}
             </Bar>
           </BarChart>
