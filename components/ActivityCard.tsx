@@ -13,6 +13,7 @@ export interface TeamActivityScore {
 }
 
 export interface TopScorer {
+  id: string
   name: string
   team: string
   teamColor: string
@@ -115,7 +116,7 @@ export default function ActivityCard({
           </p>
           <div className="space-y-1">
             {topScorers.slice(0, 3).map((scorer, i) => (
-              <div key={scorer.name} className="flex items-center gap-2 text-xs">
+              <div key={scorer.id} className="flex items-center gap-2 text-xs">
                 <span className="text-slate-500 w-4 text-center">
                   {i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉'}
                 </span>

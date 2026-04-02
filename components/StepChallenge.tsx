@@ -44,11 +44,16 @@ function renderLegendText(value: string) {
 }
 
 export default function StepChallenge({ individuals, teams }: StepChallengeProps) {
+  const chartTeams =
+    teams.length > 0
+      ? teams.map((team) => ({ name: team.team, color: team.color }))
+      : config.teams.map((team) => ({ name: team.name, color: team.color }))
+
   // Build chart data: combined team steps per day
   const chartData = DAYS.map((day) => {
     const stepKey = `steps_${day}` as StepKey
     const entry: Record<string, string | number> = { day: DAY_LABELS[day] }
-    config.teams.forEach((teamCfg) => {
+    chartTeams.forEach((teamCfg) => {
       const teamMembers = individuals.filter((p) => p.team === teamCfg.name)
       entry[teamCfg.name] = teamMembers.reduce(
         (sum, p) => sum + (p[stepKey] as number),
@@ -61,45 +66,38 @@ export default function StepChallenge({ individuals, teams }: StepChallengeProps
   // Top 5 individual steppers by cumulative total
   const topSteppers = [...individuals]
     .map((p) => ({
+      id: p.id,
       name: p.name,
       team: p.team,
       color: getTeamColor(p.team),
       total: DAYS.reduce((sum, day) => sum + (p[`steps_${day}` as StepKey] as number), 0),
     }))
+    .filter((p) => p.total > 0)
     .sort((a, b) => b.total - a.total)
     .slice(0, 5)
 
-  // Daily step bonus winners (team with highest combined steps)
+  // Daily step bonus winners from the same team sheet data used in standings
   const dailyBonusWinners = DAYS.map((day) => {
-    const stepKey = `steps_${day}` as StepKey
-    const teamTotals = config.teams.map((teamCfg) => ({
-      name: teamCfg.name,
-      color: teamCfg.color,
-      steps: individuals
-        .filter((p) => p.team === teamCfg.name)
-        .reduce((sum, p) => sum + (p[stepKey] as number), 0),
-    }))
-    const max = Math.max(...teamTotals.map((t) => t.steps))
-    const winners = teamTotals.filter((t) => t.steps === max && max > 0)
-    return { day: DAY_LABELS[day], winners, max }
+    const bonusKey = `step_bonus_daily_${day}` as const
+    const maxBonus = Math.max(0, ...teams.map((team) => team[bonusKey]))
+    const winners =
+      maxBonus > 0
+        ? teams
+            .filter((team) => team[bonusKey] === maxBonus)
+            .map((team) => ({ name: team.team, color: team.color }))
+        : []
+
+    return { day: DAY_LABELS[day], winners, bonus: maxBonus }
   })
 
   // Overall step bonus winner (team + individual)
-  const overallTeamSteps = config.teams.map((teamCfg) => ({
-    name: teamCfg.name,
-    color: teamCfg.color,
-    steps: individuals
-      .filter((p) => p.team === teamCfg.name)
-      .reduce(
-        (sum, p) =>
-          sum + DAYS.reduce((s, day) => s + (p[`steps_${day}` as StepKey] as number), 0),
-        0
-      ),
-  }))
-  const maxTeamSteps = Math.max(...overallTeamSteps.map((t) => t.steps))
-  const overallTeamWinners = overallTeamSteps.filter(
-    (t) => t.steps === maxTeamSteps && maxTeamSteps > 0
-  )
+  const maxTeamBonus = Math.max(0, ...teams.map((team) => team.step_bonus_overall))
+  const overallTeamWinners =
+    maxTeamBonus > 0
+      ? teams
+          .filter((team) => team.step_bonus_overall === maxTeamBonus)
+          .map((team) => ({ name: team.team, color: team.color }))
+      : []
 
   const overallIndividualMax = Math.max(...topSteppers.map((t) => t.total), 0)
   const overallIndividualWinners = topSteppers.filter(
@@ -139,7 +137,7 @@ export default function StepChallenge({ individuals, teams }: StepChallengeProps
               formatter={renderLegendText}
               wrapperStyle={{ fontSize: 11, paddingTop: 8 }}
             />
-            {config.teams.map((teamCfg) => (
+            {chartTeams.map((teamCfg) => (
               <Bar
                 key={teamCfg.name}
                 dataKey={teamCfg.name}
@@ -163,7 +161,7 @@ export default function StepChallenge({ individuals, teams }: StepChallengeProps
             <p className="text-slate-500 text-sm">No step data yet</p>
           )}
           {topSteppers.map((stepper, i) => (
-            <div key={stepper.name} className="flex items-center gap-2">
+            <div key={stepper.id} className="flex items-center gap-2">
               <span className="text-sm w-6 text-center">
                 {i < 3 ? rankMedals[i] : <span className="text-slate-500 text-xs">{rankMedals[i]}</span>}
               </span>
@@ -185,7 +183,7 @@ export default function StepChallenge({ individuals, teams }: StepChallengeProps
             <p className="text-xs text-slate-500 uppercase tracking-widest font-medium">
               Daily Step Bonus Winners (Team)
             </p>
-            {dailyBonusWinners.map(({ day, winners, max }) => (
+            {dailyBonusWinners.map(({ day, winners, bonus }) => (
               <div key={day} className="flex items-center gap-2">
                 <span className="text-xs text-slate-500 w-8">{day}</span>
                 {winners.length === 0 ? (
@@ -196,7 +194,7 @@ export default function StepChallenge({ individuals, teams }: StepChallengeProps
                       <TeamBadge key={w.name} name={w.name} color={w.color} size="sm" />
                     ))}
                     <span className="text-xs text-slate-500 self-center">
-                      {max.toLocaleString()} steps
+                      +{bonus} pts
                     </span>
                   </div>
                 )}
@@ -220,7 +218,7 @@ export default function StepChallenge({ individuals, teams }: StepChallengeProps
                       <TeamBadge key={w.name} name={w.name} color={w.color} size="sm" />
                     ))}
                     <span className="text-xs text-slate-500 self-center">
-                      +5 pts
+                      +{maxTeamBonus} pts
                     </span>
                   </div>
                 )}
@@ -232,7 +230,7 @@ export default function StepChallenge({ individuals, teams }: StepChallengeProps
                 ) : (
                   <div className="flex flex-wrap gap-1 items-center">
                     {overallIndividualWinners.map((w) => (
-                      <span key={w.name} className="text-sm font-semibold text-white">
+                      <span key={w.id} className="text-sm font-semibold text-white">
                         {w.name}
                       </span>
                     ))}

@@ -1,4 +1,5 @@
 export interface RawParticipant {
+  id: string
   name: string
   team: string
   disc: number

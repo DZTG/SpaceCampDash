@@ -20,8 +20,8 @@ export function computeParticipants(raw: RawParticipant[]): Participant[] {
   const stepBonusDaily: Record<string, number> = {}
   const stepBonusOverall: Record<string, number> = {}
   raw.forEach((p) => {
-    stepBonusDaily[p.name] = 0
-    stepBonusOverall[p.name] = 0
+    stepBonusDaily[p.id] = 0
+    stepBonusOverall[p.id] = 0
   })
 
   // Daily step bonus: 1 pt to the top stepper each day (ties all win)
@@ -33,14 +33,14 @@ export function computeParticipants(raw: RawParticipant[]): Participant[] {
       raw
         .filter((p) => (p[key] as number) === maxSteps)
         .forEach((p) => {
-          stepBonusDaily[p.name] += 1
+          stepBonusDaily[p.id] += 1
         })
     }
   })
 
   // Overall step bonus: 2 pts to top cumulative stepper (ties all win)
   const cumulative = raw.map((p) => ({
-    name: p.name,
+    id: p.id,
     total: DAYS.reduce((sum, day) => sum + (p[STEP_KEYS[day]] as number), 0),
   }))
   const maxTotal = Math.max(...cumulative.map((c) => c.total))
@@ -48,13 +48,13 @@ export function computeParticipants(raw: RawParticipant[]): Participant[] {
     cumulative
       .filter((c) => c.total === maxTotal)
       .forEach((c) => {
-        stepBonusOverall[c.name] = 2
+        stepBonusOverall[c.id] = 2
       })
   }
 
   return raw.map((p) => {
-    const sbd = stepBonusDaily[p.name]
-    const sbo = stepBonusOverall[p.name]
+    const sbd = stepBonusDaily[p.id]
+    const sbo = stepBonusOverall[p.id]
     const total =
       p.disc +
       p.icebreaker +
@@ -123,8 +123,12 @@ export function computeTeams(raw: RawTeam[]): TeamData[] {
 
   // Sort by total descending and assign ranks
   withTotals.sort((a, b) => b.total - a.total)
+  let currentRank = 0
   withTotals.forEach((t, i) => {
-    t.rank = i + 1
+    if (i === 0 || t.total !== withTotals[i - 1].total) {
+      currentRank = i + 1
+    }
+    t.rank = currentRank
   })
 
   return withTotals
@@ -159,9 +163,9 @@ export function getTopIndividuals(
   participants: Participant[],
   scoreFn: (p: Participant) => number,
   limit = 3
-): Array<{ name: string; team: string; score: number }> {
+): Array<{ id: string; name: string; team: string; score: number }> {
   return [...participants]
-    .map((p) => ({ name: p.name, team: p.team, score: scoreFn(p) }))
+    .map((p) => ({ id: p.id, name: p.name, team: p.team, score: scoreFn(p) }))
     .filter((x) => x.score > 0)
     .sort((a, b) => b.score - a.score)
     .slice(0, limit)

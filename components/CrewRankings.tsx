@@ -27,6 +27,13 @@ export default function CrewRankings({ individuals }: CrewRankingsProps) {
   const sorted = [...individuals].sort((a, b) => b.total - a.total)
   const filtered =
     activeTeam === 'All' ? sorted : sorted.filter((p) => p.team === activeTeam)
+  const rankById = sorted.reduce<Record<string, number>>((acc, participant, index) => {
+    const previous = sorted[index - 1]
+    const rank =
+      index === 0 || participant.total !== previous.total ? index + 1 : acc[previous.id]
+    acc[participant.id] = rank
+    return acc
+  }, {})
 
   const maxTotal = sorted[0]?.total ?? 1
 
@@ -79,8 +86,8 @@ export default function CrewRankings({ individuals }: CrewRankingsProps) {
           </div>
         )}
 
-        {filtered.map((p, i) => {
-          const globalRank = sorted.indexOf(p) + 1
+        {filtered.map((p) => {
+          const globalRank = rankById[p.id]
           const medal = RANK_MEDALS[globalRank]
           const color = getTeamColor(p.team)
           const boardTotal =
@@ -110,7 +117,7 @@ export default function CrewRankings({ individuals }: CrewRankingsProps) {
 
           return (
             <div
-              key={p.name}
+              key={p.id}
               className={`px-4 py-3 border-b border-white/5 last:border-0 transition-colors hover:bg-white/3
                 ${globalRank <= 3 ? 'bg-white/2' : ''}`}
             >
