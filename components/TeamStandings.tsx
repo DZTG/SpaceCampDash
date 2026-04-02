@@ -103,9 +103,9 @@ function TeamCard({ team }: { team: TeamData }) {
 function CustomTooltip({ active, payload, label }: any) {
   if (active && payload?.length) {
     return (
-      <div className="glass px-3 py-2 text-sm">
+      <div className="chart-tooltip px-3 py-2 text-sm">
         <p className="text-white font-semibold mb-1">{label}</p>
-        <p style={{ color: payload[0].payload.color }}>
+        <p className="font-medium" style={{ color: payload[0].payload.color }}>
           {payload[0].value} pts
         </p>
       </div>

@@ -197,6 +197,15 @@ body {
   background: rgba(255, 255, 255, 0.07);
 }
 
+.chart-tooltip {
+  background: rgba(8, 13, 28, 0.94);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 0.875rem;
+  box-shadow: 0 14px 40px rgba(2, 6, 23, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
 /* ─── Scrollbar ──────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 6px;

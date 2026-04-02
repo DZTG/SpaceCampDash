@@ -26,10 +26,10 @@ type StepKey = `steps_${DayKey}`
 function CustomTooltip({ active, payload, label }: any) {
   if (active && payload?.length) {
     return (
-      <div className="glass px-3 py-2 text-xs space-y-1">
+      <div className="chart-tooltip px-3 py-2 text-xs space-y-1">
         <p className="text-white font-semibold mb-1">{label}</p>
         {payload.map((p: { name: string; value: number; color: string }) => (
-          <p key={p.name} style={{ color: p.color }}>
+          <p key={p.name} className="font-medium" style={{ color: p.color }}>
             {p.name}: {p.value.toLocaleString()} steps
           </p>
         ))}
