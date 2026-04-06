@@ -63,7 +63,7 @@ export default function ActivityBreakdown({
       name: 'DISC Assessment',
       emoji: '🧠',
       teamScores: makeTeamScores(teams, ['disc']),
-      topScorers: topScorers(individuals, (p) => p.disc),
+      topScorers: [],
     },
     {
       name: 'Icebreaker',

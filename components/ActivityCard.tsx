@@ -42,7 +42,7 @@ export default function ActivityCard({
       {/* Header */}
       <div className="flex items-center gap-2">
         <span className="text-xl">{emoji}</span>
-        <h3 className="font-semibold text-slate-100 text-sm">{name}</h3>
+        <h3 className="font-semibold text-slate-100 text-base">{name}</h3>
       </div>
 
       {/* Team scores */}
@@ -53,13 +53,13 @@ export default function ActivityCard({
             <div key={ts.team}>
               <div className="flex items-center justify-between mb-0.5">
                 <span
-                  className="text-xs font-medium truncate max-w-[70%]"
+                  className="text-sm font-medium truncate max-w-[70%]"
                   style={{ color: ts.color }}
                 >
                   {ts.team}
                 </span>
                 <span
-                  className="text-xs font-bold"
+                  className="text-sm font-bold"
                   style={{ color: ts.color }}
                 >
                   {ts.total}
@@ -89,11 +89,11 @@ export default function ActivityCard({
           <div className="grid grid-cols-5 gap-1 text-center">
             {DAYS.map((day, i) => (
               <div key={day} className="space-y-0.5">
-                <p className="text-slate-500 text-[10px]">{DAY_LABELS[day]}</p>
+                <p className="text-slate-500 text-xs">{DAY_LABELS[day]}</p>
                 {teamScores.map((ts) => (
                   <div
                     key={ts.team}
-                    className="text-[11px] font-semibold rounded px-0.5 py-0.5"
+                    className="text-xs font-semibold rounded px-1 py-0.5"
                     style={{
                       color: ts.color,
                       background: `${ts.color}15`,

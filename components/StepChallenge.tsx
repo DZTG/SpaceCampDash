@@ -120,12 +120,12 @@ export default function StepChallenge({ individuals, teams }: StepChallengeProps
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
             <XAxis
               dataKey="day"
-              tick={{ fill: '#94a3b8', fontSize: 11 }}
+              tick={{ fill: '#94a3b8', fontSize: 12 }}
               axisLine={false}
               tickLine={false}
             />
             <YAxis
-              tick={{ fill: '#94a3b8', fontSize: 10 }}
+              tick={{ fill: '#94a3b8', fontSize: 11 }}
               axisLine={false}
               tickLine={false}
               tickFormatter={(v: number) =>
@@ -135,7 +135,7 @@ export default function StepChallenge({ individuals, teams }: StepChallengeProps
             <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.04)' }} />
             <Legend
               formatter={renderLegendText}
-              wrapperStyle={{ fontSize: 11, paddingTop: 8 }}
+              wrapperStyle={{ fontSize: 12, paddingTop: 8 }}
             />
             {chartTeams.map((teamCfg) => (
               <Bar

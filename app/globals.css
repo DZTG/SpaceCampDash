@@ -13,6 +13,10 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
+html {
+  font-size: 106.25%;
+}
+
 /* ─── Starfield ─────────────────────────────────────────────────── */
 .starfield {
   position: fixed;
@@ -223,7 +227,7 @@ body {
 
 /* ─── Section heading ────────────────────────────────────────────── */
 .section-heading {
-  font-size: 1.25rem;
+  font-size: 1.375rem;
   font-weight: 700;
   color: #f1f5f9;
   letter-spacing: 0.02em;

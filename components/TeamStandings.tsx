@@ -38,7 +38,7 @@ function TeamAxisTick({
       dy={4}
       textAnchor="end"
       fill={fill}
-      fontSize={12}
+      fontSize={13}
       fontWeight={700}
     >
       {teamName}
@@ -144,7 +144,7 @@ export default function TeamStandings({ teams }: TeamStandingsProps) {
             />
             <XAxis
               type="number"
-              tick={{ fill: '#94a3b8', fontSize: 11 }}
+              tick={{ fill: '#94a3b8', fontSize: 12 }}
               axisLine={false}
               tickLine={false}
             />
